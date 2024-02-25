@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "cursproject-4"
+version = "0.1.0"
+description = ""
+authors = ["Alexandr Sinev <sir.sineow@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+pytest = "^8.0.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
