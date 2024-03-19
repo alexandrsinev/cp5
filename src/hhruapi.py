@@ -19,15 +19,22 @@ class GetVacansies(APIHHru):
     def __init__(self):
         self.response = None
 
-    def get_vacancies(self, vacancies):
+    def get_vacancies(self):
         """
         Метод для отправки запроса и получения ответа в виде json
         """
-        params = {
-            'text': vacancies,
-            'enable_snippets': "true",
-            'per_page': 100  # Кол-во вакансий на 1 странице
-        }
-        response = requests.get(self.url, params)
-        self.response = json.dumps(response.json(), indent=4, ensure_ascii=False)
-        return self.response
+        list_ = []
+        for i in range(20):
+            params = {
+                'enable_snippets': "true",
+                'page': i,
+                'per_page': 100  # Кол-во вакансий на 1 странице
+            }
+            response = requests.get(self.url, params)
+            response = json.dumps(response.json(), indent=4, ensure_ascii=False)
+            response = json.loads(response)
+            list_ += response["items"]
+        return list_
+
+v = GetVacansies()
+print(len(v.get_vacancies()))

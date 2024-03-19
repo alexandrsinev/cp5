@@ -6,29 +6,17 @@ from src.saver import SaverData
 # Создание экземпляра класса для работы с API сайтов с вакансиями
 hh_api = GetVacansies()
 
+company_name_list = ['Тинькофф', 'Bell Integrator', 'ООО JSA Group', 'IDF Technology', 'ТОО Autodata', 'ReSpec',
+                     'ДиБиЭс Технологии', 'ООО Скиллтеллект', 'InfiNet Wireless', 'ООО 24Н Софт']
 
-# Функция для взаимодействия с пользователем
-def user_interaction():
-    search_query = input("Введите поисковый запрос: ")
-
-    response = hh_api.get_vacancies(search_query)
+    response = hh_api.get_vacancies()
     vacancies_list = WorkVacancies.format_vacancies(response)
-
-    top_n = int(input("Введите количество вакансий для вывода в топ N: "))
-    filter_words = input("Введите город в котором ищите вакансию: ")
-    salary_range = input("Введите диапазон зарплат: ")  # Пример: 100000 - 150000
-
-    filtered_vacancies = filter_vacancies(vacancies_list, filter_words)
-    ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
-    sorted_vacancies = sort_vacancies(ranged_vacancies)
-    top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
-    for i in top_vacancies:
-        print(i)
-    return response
-
+    def get_company_name(vacancies_list):
+        company_name_vacancies_list = []
+        for i in vacancies_list:
+            i_dict = vars(i)
+            if i_dict["company_name"] in company_name_list:
+                company_name_vacancies_list.append(i_dict)
+        return company_name_vacancies_list
 
 if __name__ == "__main__":
-    vacancy = user_interaction()
-    # Сохранение информации о вакансиях в файл
-    json_saver = SaverData()
-    json_saver.save_in_json(vacancy)
